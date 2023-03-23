@@ -1,0 +1,144 @@
+:root {
+  --header-height: 3rem;
+  --header-font-color: #212529;
+  --accent-color: #ffa500;
+  --bg-color-light: #f8f9fa;
+  --bg-color-normal: #e9ecef;
+  --font-color: #212529;
+  --font-color-muted: #495057;
+}
+
+[data-theme="dark"] {
+  --bg-color-light: #222327;
+  --bg-color-normal: #16171b;
+  --font-color: #efefef;
+  --font-color-muted: #adb5bd;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  font-family: "Open Sans", sans-serif;
+  background-color: var(--bg-color-light);
+  color: var(--font-color);
+}
+
+.app {
+  background-color: var(--bg-color-normal);
+  max-width: 600px;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.app ul {
+  list-style-type: none;
+}
+
+.header {
+  background-color: var(--accent-color);
+  height: var(--header-height);
+  display: flex;
+  justify-content: center;
+}
+
+.header-content {
+  width: 100vw;
+  max-width: 600px;
+}
+
+.header .nav {
+  display: inline-block;
+  position: relative;
+}
+
+.header .nav .nav__menu {
+  background-color: var(--bg-color-light);
+  width: 16rem;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  display: none;
+  position: absolute;
+  top: var(--header-height);
+  list-style-type: none;
+  border: 2px solid var(--accent-color);
+  border-top: none;
+}
+
+.header .nav .nav__menu.open {
+  display: block;
+}
+
+.header .nav .nav__menu .nav__menu-item {
+  padding-bottom: 0.75em;
+}
+
+.header .nav .nav__menu .nav__menu-item,
+.header .nav .nav__menu .nav__sub-menu-item {
+  font-weight: 500;
+}
+
+.header .nav .nav__menu .nav__menu-item a {
+  color: var(--font-color);
+  text-decoration: none;
+}
+.header .nav .nav__menu .nav__menu-item i {
+  padding: 0 1.5em 0 0.25em;
+  width: 1.5em;
+}
+
+.header .nav .nav__menu .nav__menu-item__dropdown {
+  cursor: pointer;
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu {
+  display: none;
+  list-style-type: none;
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu.open {
+  display: block;
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item {
+  padding-left: 1.75em;
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item span {
+  cursor: pointer;
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item span.fi {
+  font-size: 0.75em;
+  margin: 0 0.25em;
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item span.fi.on {
+  border: 3px solid var(--font-color);
+}
+
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item #dark-mode-on {
+  display: inline-block;
+}
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item #dark-mode-off {
+  display: none;
+}
+
+.header .nav .nav__toggle {
+  color: var(--header-font-color);
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 0.5rem;
+}
+
+.header .h1 {
+  color: var(--header-font-color);
+  display: inline-block;
+}
+
+.open-inline {
+  display: inline-block;
+}
