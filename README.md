@@ -1,10 +1,10 @@
 # shopping-list
 
-Simple shopping list built as Single Page Application
+Simple shopping list
 
 ## Purpose
 
-Practice CRUD operations
+Built as a part of learning process, especially practice CRUD operations
 
 ## Technologies Used
 
@@ -15,3 +15,9 @@ Practice CRUD operations
 ## Project Status
 
 in progress
+
+## To Do
+
+- Basic functionalities of the shopping list - creating, updating, deleting
+- Single Page Application interface
+- language change option
