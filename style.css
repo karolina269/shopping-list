@@ -120,11 +120,17 @@
   border: 3px solid var(--font-color);
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item #dark-mode-on {
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-off {
+  display: none;
+}
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-off.visible {
   display: inline-block;
 }
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item #dark-mode-off {
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-on {
   display: none;
+}
+.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-on.visible {
+  display: inline-block;
 }
 
 .header .nav .nav__toggle {
