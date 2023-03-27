@@ -5,7 +5,8 @@
   --bg-color-light: #f8f9fa;
   --bg-color-normal: #e9ecef;
   --font-color: #212529;
-  --font-color-muted: #495057;
+  --font-color-muted: #595d62;
+  --bg-hover: white;
 }
 
 [data-theme="dark"] {
@@ -13,6 +14,7 @@
   --bg-color-normal: #16171b;
   --font-color: #efefef;
   --font-color-muted: #adb5bd;
+  --bg-hover: #2d2e32;
 }
 
 * {
@@ -21,10 +23,62 @@
   padding: 0;
 }
 
-.page {
+body {
   font-family: "Open Sans", sans-serif;
   background-color: var(--bg-color-light);
   color: var(--font-color);
+}
+
+ul {
+  list-style-type: none;
+}
+
+input {
+  background-color: var(--bg-color-light);
+  font-family: "Open Sans", sans-serif;
+  color: var(--font-color);
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border: none;
+}
+
+input.edit {
+  margin-top: 0;
+  padding: 0.5rem 0;
+}
+
+input.edit:hover {
+  background-color: var(--bg-color-light);
+  transition: 0.3s;
+}
+
+input:focus {
+  outline: none;
+  transition: 0.3s;
+}
+
+input:hover {
+  background-color: var(--bg-hover);
+  transition: 0.3s;
+}
+
+.btn {
+  background-color: var(--bg-color-light);
+  color: var(--font-color);
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: none;
+}
+
+.btn-add {
+  padding: 0.5rem 0.6rem;
+  margin-left: 0.25rem;
+}
+
+.btn-add:hover {
+  color: var(--font-color-muted);
+  transition: 0.3s;
 }
 
 .app {
@@ -32,10 +86,6 @@
   max-width: 600px;
   margin: 1em auto;
   padding: 1em;
-}
-
-.app ul {
-  list-style-type: none;
 }
 
 .header {
@@ -50,12 +100,12 @@
   max-width: 600px;
 }
 
-.header .nav {
+.main-nav {
   display: inline-block;
   position: relative;
 }
 
-.header .nav .nav__menu {
+.main-nav__list {
   background-color: var(--bg-color-light);
   width: 16rem;
   font-size: 1.5rem;
@@ -63,88 +113,116 @@
   display: none;
   position: absolute;
   top: var(--header-height);
-  list-style-type: none;
   border: 2px solid var(--accent-color);
   border-top: none;
 }
 
-.header .nav .nav__menu.open {
+.main-nav__list.open {
   display: block;
 }
 
-.header .nav .nav__menu .nav__menu-item {
+.main-nav__item {
   padding-bottom: 0.75em;
 }
 
-.header .nav .nav__menu .nav__menu-item,
-.header .nav .nav__menu .nav__sub-menu-item {
+.main-nav__item,
+.submenu__item {
   font-weight: 500;
 }
 
-.header .nav .nav__menu .nav__menu-item a {
+.main-nav__link {
   color: var(--font-color);
   text-decoration: none;
 }
-.header .nav .nav__menu .nav__menu-item i {
+.main-nav__item i {
   padding: 0 1.5em 0 0.25em;
   width: 1.5em;
 }
 
-.header .nav .nav__menu .nav__menu-item__dropdown {
+.submenu__list-dropdown {
   cursor: pointer;
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu {
+.submenu__list {
   display: none;
-  list-style-type: none;
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu.open {
+.submenu__list.open {
   display: block;
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item {
-  padding-left: 1.75em;
+.submenu__item {
+  padding-left: 2.75rem;
+  font-size: 1.25rem;
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item span {
+.submenu__item span.fi {
+  font-size: 0.75em;
+  margin: 0 0.25em;
   cursor: pointer;
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item span.fi {
-  font-size: 0.75em;
-  margin: 0 0.25em;
-}
-
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item span.fi.on {
+.submenu__item span.fi.selected {
   border: 3px solid var(--font-color);
+  cursor: auto;
 }
 
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-off {
+.submenu__item i {
+  cursor: pointer;
+}
+
+.submenu__item .dark-off {
   display: none;
 }
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-off.visible {
+.submenu__item .dark-off.visible {
   display: inline-block;
 }
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-on {
+.submenu__item .dark-on {
   display: none;
 }
-.header .nav .nav__menu .nav__menu-item .nav__sub-menu .nav__sub-menu-item .dark-on.visible {
+.submenu__item .dark-on.visible {
   display: inline-block;
 }
 
-.header .nav .nav__toggle {
+.main-nav__toggle {
   color: var(--header-font-color);
   cursor: pointer;
   font-size: 2rem;
   padding: 0.5rem;
 }
 
-.header .h1 {
+.h1 {
   color: var(--header-font-color);
   display: inline-block;
 }
 
-.open-inline {
-  display: inline-block;
+.all-lists__item {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.all-lists__link {
+  color: var(--font-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.all-lists__link.invisible {
+  visibility: hidden;
+}
+
+.manage-list {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  line-height: 2rem;
+  cursor: pointer;
+}
+
+.manage-list:hover {
+  background-color: var(--bg-color-normal);
+  transition: 0.3s;
 }

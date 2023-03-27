@@ -16,41 +16,54 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="page">
+<body>
 
     <header class="header">
         <div class="header-content">
-            <nav class="nav">
-                <ul class="nav__menu">
-                    <li class="nav__menu-item"><a href=""><i class="fa-solid fa-clipboard-list"></i>Lists</a></li>
-                    <li class="nav__menu-item">
-                        <span class="nav__menu-item__dropdown"><i class="fa-solid fa-gear"></i>Settings</span>
-                        <ul class="nav__sub-menu">
-                            <li class="nav__sub-menu-item"><span>Language</span>
-                                <span class="fi fi-us on" title="english"></span>
+            <nav class="main-nav">
+                <ul class="main-nav__list">
+                    <li class="main-nav__item"><a class="main-nav__link" href=""><i
+                                class="fa-solid fa-clipboard-list"></i><span id="lists">Lists</span></a></li>
+                    <li class="main-nav__item">
+                        <p class="submenu__list-dropdown"><i class="fa-solid fa-gear"></i><span
+                                id="settings">Settings</span></p>
+                        <ul class="submenu__list">
+                            <li class="submenu__item"><span id="language">Language</span>
+                                <span class="fi fi-us selected" title="english"></span>
                                 <span class="fi fi-pl" title="polish"></span>
                             </li>
-                            <li class="nav__sub-menu-item" id="dark-mode"><span>Dark Mode
+                            <li class="submenu__item" id="dark-mode"><span><span id="darkmode">Dark mode</span>
                                     <i class="fa-solid fa-toggle-off dark-off visible"></i>
                                     <i class="fa-solid fa-toggle-on dark-on"></i></span>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav__menu-item"><a href=""><i class="fa-solid fa-trash"></i>Recycle Bin</a></li>
+                    <li class="main-nav__item"><a class="main-nav__link" href=""><i class="fa-solid fa-trash"></i><span
+                                id="recyclebin">Recycle bin</span></a></li>
                 </ul>
-                <i class="nav__toggle fa-solid fa-bars"></i>
+                <i class="main-nav__toggle fa-solid fa-bars"></i>
             </nav>
 
-            <h1 class="h1">Shopping List</h1>
+            <h1 id="shoppinglist" class="h1">Shopping List</h1>
         </div>
     </header>
 
     <main class="app">
-        <h2>Your lists</h2>
-        <ul class="lists__main-list">
-            <li>list</li>
-            <li>list</li>
-        </ul>
+        <section class="all-lists">
+
+            <h2 id="yourlists">Your lists</h2>
+
+            <ul class="all-lists__list">
+            </ul>
+
+            <div class="all-lists__add">
+                <form id="add-list">
+                    <input class="input-new" id="new-list"></input>
+                    <button id="add" class="btn btn-add" type="submit">Add</button>
+                </form>
+            </div>
+
+        </section>
     </main>
 
 

@@ -4,7 +4,7 @@ Simple shopping list
 
 ## Purpose
 
-Built as a part of learning process, especially practice CRUD operations
+Built as a part of learning process, especially practice CRUD operations and BEM methodology
 
 ## Technologies Used
 
@@ -18,6 +18,6 @@ in progress
 
 ## To Do
 
-- Basic functionalities of the shopping list - creating, updating, deleting
+- Basic functionalities of the shopping list: creating, updating, deleting
 - Single Page Application interface
-- language change option
+- animations, transitions, refine styling
