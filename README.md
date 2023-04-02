@@ -19,5 +19,4 @@ in progress
 ## To Do
 
 - Basic functionalities of the shopping list: creating, updating, deleting
-- Single Page Application interface
 - animations, transitions, refine styling

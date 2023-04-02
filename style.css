@@ -83,6 +83,7 @@ input:hover {
 
 .app {
   background-color: var(--bg-color-normal);
+  width: 95vw;
   max-width: 600px;
   margin: 1em auto;
   padding: 1em;
@@ -196,20 +197,29 @@ input:hover {
   display: inline-block;
 }
 
-.all-lists__item {
+.lists__item {
   margin-top: 1em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.all-lists__link {
-  color: var(--font-color);
-  text-decoration: none;
+  background-color: var(--bg-color-light);
   font-weight: 600;
+  padding: 0.5rem 1rem;
 }
 
-.all-lists__link.invisible {
+.lists__item-removed {
+  color: var(--font-color-muted);
+}
+
+.lists__ref {
+  background-color: var(--bg-color-light);
+  color: var(--font-color);
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.lists__ref.invisible {
   visibility: hidden;
 }
 
@@ -225,4 +235,18 @@ input:hover {
 .manage-list:hover {
   background-color: var(--bg-color-normal);
   transition: 0.3s;
+}
+
+.list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list__content {
+  display: none;
+}
+
+.list__content.open {
+  display: initial;
 }
