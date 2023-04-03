@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Removed Lists</title>
+    <title>Single List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -37,8 +37,8 @@
                                     <i class="fa-solid fa-toggle-on dark-on"></i></span>
                             </li>
                         </ul>
-                    <li class="main-nav__item"><a class="main-nav__link" href=""><i class="fa-solid fa-trash"></i><span
-                                id="recyclebin">Recycle bin</span></a></li>
+                    <li class="main-nav__item"><a class="main-nav__link" href="removed.html"><i
+                                class="fa-solid fa-trash"></i><span id="recyclebin">Recycle bin</span></a></li>
                 </ul>
                 <i class="main-nav__toggle fa-solid fa-bars"></i>
             </nav>
@@ -48,12 +48,22 @@
     </header>
 
     <main class="app">
-        <section class="lists">
+        <section class="list">
 
-            <h2 id="removedlists">Removed lists</h2>
+            <header class="list__header">
+                <h2 class="list__name">Single list</h2>
+                <p id="emptylist" class="list-empty hide">Your list is empty</p>
+            </header>
 
-            <ul class="lists__list">
+            <ul class="list__content">
             </ul>
+
+            <div class="list__add">
+                <form id="add-item">
+                    <input class="input-new" id="new-item">
+                    <button id="add" class="btn btn-add" type="submit">Add</button>
+                </form>
+            </div>
 
         </section>
     </main>

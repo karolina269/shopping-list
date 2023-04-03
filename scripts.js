@@ -14,7 +14,17 @@ document.querySelector(".submenu__list-dropdown").addEventListener("click", () =
 });
 
 let lists = localStorage.getItem("lists") ? JSON.parse(localStorage.getItem("lists")) : [];
-let removedLists = localStorage.getItem("removedLists") ? JSON.parse(localStorage.getItem("removedLists")) : [];
+
+const cancelEdit = (e) => {
+  e.stopPropagation();
+  document.removeEventListener("click", cancelEdit);
+  if (document.querySelector(".invisible") !== null) {
+    document.querySelector(".invisible").classList.remove("invisible");
+  }
+  if (document.querySelector(".edit") !== null) {
+    document.querySelector(".edit").remove();
+  }
+};
 
 /* Lists main view */
 if (document.title === "Shopping List") {
@@ -33,70 +43,59 @@ if (document.title === "Shopping List") {
     input.select();
   };
 
-  const cancelEdit = (e) => {
-    e.stopPropagation();
-    document.removeEventListener("click", cancelEdit);
-    if (document.querySelector(".invisible") !== null) {
-      document.querySelector(".invisible").classList.remove("invisible");
-    }
-    if (document.querySelector(".edit") !== null) {
-      document.querySelector(".edit").remove();
-    }
-  };
-
   const saveListName = (e) => {
-    if (e.target.value.length > 0 && (e.keyCode === 13 || e.type === "click")) {
-      let currentName = e.target.parentNode.childNodes[1];
-      currentName.textContent = e.target.value;
+    if (e.target.value.length > 0 && (e.code === "Enter" || e.type === "click")) {
+      let newName = e.target.value;
+      let listLink = e.target.parentNode.childNodes[1];
+      listLink.textContent = newName;
+      let key = e.target.parentNode.dataset.key;
+      for (let list of lists) {
+        if (list.id == key) {
+          list.name = newName;
+          localStorage.setItem("lists", JSON.stringify(lists));
+          break;
+        }
+      }
       e.target.remove();
-      currentName.classList.remove("invisible");
+      listLink.classList.remove("invisible");
+      document.removeEventListener("click", cancelEdit);
     }
   };
 
   const removeList = (e) => {
-    let li = e.target.parentNode.parentNode.parentNode;
+    let li = e.target.parentNode.parentNode;
     let key = li.dataset.key;
-    removedLists.push({ id: key, name: li.childNodes[0].textContent });
-    localStorage.setItem("removedLists", JSON.stringify(removedLists));
     li.remove();
-    lists = lists.filter((list) => list.id != key);
-    localStorage.setItem("lists", JSON.stringify(lists));
+    for (let list of lists) {
+      if (list.id == key) {
+        list.isRemoved = true;
+        localStorage.setItem("lists", JSON.stringify(lists));
+        break;
+      }
+    }
   };
-
-  //   const expandList = (e) => {
-  //     console.log("rozwijam liste");
-  //     let id = e.target.parentNode.parentNode.dataset.key;
-  //     console.log(id);
-  //     console.log(e.target.parentNode.parentNode);
-  //     let ul = document.createElement("ul");
-  //     ul.classList.add("list");
-  //     ul.innerHTML = `<div class="lists__add">
-  //     <form id="add-item">
-  //         <input class="input-new" id="new-item">
-  //         <button id="add-item" class="btn btn-add" type="submit">Add</button>
-  //     </form>
-  // </div>`;
-  //     e.target.parentNode.parentNode.appendChild(ul);
-  //   };
 
   const renderList = (list) => {
     let li = document.createElement("li");
-    li.innerHTML = `<header class="list__header"><button class="lists__ref">${list.name}</button>
-    <span><i class="manage-list fa-solid fa-pen"></i><i class="manage-list fa-solid fa-trash"></span></i></header>`;
+    li.innerHTML = `<a class="lists__link" href="singlelist.html">${list.name}</a>
+    <span><i class="manage-list fa-solid fa-pen"></i><i class="manage-list fa-solid fa-trash"></i></span>`;
     li.classList.add("lists__item");
     li.dataset.key = list.id;
     document.querySelector(".lists__list").appendChild(li);
-    let listTitle = li.childNodes[0].childNodes[0];
-    //list content dodac, klasa open gdy klikniete
-    let editBtn = li.childNodes[0].childNodes[2].childNodes[0];
-    let removeBtn = li.childNodes[0].childNodes[2].childNodes[1];
-    // listTitle.addEventListener("click", expandList);
+    let editBtn = li.childNodes[2].childNodes[0];
+    let removeBtn = li.childNodes[2].childNodes[1];
     editBtn.addEventListener("click", editListName);
     removeBtn.addEventListener("click", removeList);
+    let link = li.childNodes[0];
+    link.addEventListener("click", viewList);
+  };
+
+  const viewList = (e) => {
+    let id = e.target.parentNode.dataset.key;
+    localStorage.setItem("viewed", id);
   };
 
   let addList = document.getElementById("add-list");
-
   addList.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -112,6 +111,8 @@ if (document.title === "Shopping List") {
     let list = {
       id: new Date().getTime(),
       name: listName,
+      isRemoved: false,
+      items: [],
     };
     renderList(list);
     lists.push(list);
@@ -119,44 +120,193 @@ if (document.title === "Shopping List") {
     addList[0].value = "";
   });
 
-  lists.forEach(renderList);
+  lists.forEach((list) => {
+    if (list.isRemoved === false) {
+      renderList(list);
+    }
+  });
 }
 
-/* Removed Lists */
+/* Removed lists */
 if (document.title === "Removed Lists") {
   const restoreList = (e) => {
     let li = e.target.parentNode.parentNode;
     let key = li.dataset.key;
-    lists.push({ id: key, name: li.childNodes[0].textContent });
-    localStorage.setItem("lists", JSON.stringify(lists));
     li.remove();
-    removedLists = removedLists.filter((list) => list.id != key);
-    localStorage.setItem("removedLists", JSON.stringify(removedLists));
+    for (let list of lists) {
+      if (list.id == key) {
+        list.isRemoved = false;
+        localStorage.setItem("lists", JSON.stringify(lists));
+        break;
+      }
+    }
   };
 
   const removeListPermanently = (e) => {
     let li = e.target.parentNode.parentNode;
     let key = li.dataset.key;
-    removedLists = removedLists.filter((list) => list.id != key);
-    localStorage.setItem("removedLists", JSON.stringify(removedLists));
+    lists = lists.filter((list) => list.id != key);
+    localStorage.setItem("lists", JSON.stringify(lists));
     li.remove();
   };
 
-  const renderRemovedLists = (removedLists) => {
-    removedLists.forEach((list) => {
-      let li = document.createElement("li");
-      li.innerHTML = `<span>${list.name}</span>
+  const renderRemovedLists = (lists) => {
+    lists.forEach((list) => {
+      if (list.isRemoved === true) {
+        let li = document.createElement("li");
+        li.innerHTML = `<span>${list.name}</span>
     <span><i class="manage-list fa-solid fa-trash-arrow-up"></i><i class="manage-list fa-solid fa-trash" style="color: #b30009"></i></span>`;
-      li.classList.add("lists__item", "lists__item-removed");
-      li.dataset.key = list.id;
-      document.querySelector(".lists__list").appendChild(li);
-      let restoreBtn = li.childNodes[2].childNodes[0];
-      let removeBtn = li.childNodes[2].childNodes[1];
-      restoreBtn.addEventListener("click", restoreList);
-      removeBtn.addEventListener("click", removeListPermanently);
+        li.classList.add("lists__item", "lists__item-removed");
+        li.dataset.key = list.id;
+        document.querySelector(".lists__list").appendChild(li);
+        let restoreBtn = li.childNodes[2].childNodes[0];
+        let removeBtn = li.childNodes[2].childNodes[1];
+        restoreBtn.addEventListener("click", restoreList);
+        removeBtn.addEventListener("click", removeListPermanently);
+      }
     });
   };
-  renderRemovedLists(removedLists);
+  renderRemovedLists(lists);
+}
+
+/* Single list */
+if (document.title === "Single List") {
+  let id = localStorage.getItem("viewed");
+
+  let listTitle = document.querySelector(".list__name");
+  for (list of lists) {
+    if (list.id == id) {
+      listTitle.textContent = list.name;
+      if (list.items.length === 0) {
+        document.querySelector(".list-empty").classList.remove("hide");
+      }
+      break;
+    }
+  }
+
+  const editItemName = (e) => {
+    e.stopPropagation();
+    let previousNameSpan = e.target.parentNode.parentNode.childNodes[0].childNodes[1];
+    if (previousNameSpan.tagName === "INPUT") return;
+    previousNameSpan.classList.add("invisible");
+    let input = document.createElement("input");
+    input.value = previousNameSpan.textContent;
+    input.classList.add("edit");
+    input.addEventListener("click", saveItemName);
+    input.addEventListener("keypress", saveItemName);
+    let checkbox = previousNameSpan.parentNode.childNodes[0];
+    checkbox.after(input);
+    document.addEventListener("click", cancelEdit);
+    input.select();
+  };
+
+  const saveItemName = (e) => {
+    if (e.target.value.length > 0 && (e.code === "Enter" || e.type === "click")) {
+      let newName = e.target.value;
+      let itemNameSpan = e.target.parentNode.childNodes[2];
+      itemNameSpan.textContent = newName;
+      let key = e.target.parentNode.parentNode.dataset.key;
+      for (list of lists) {
+        for (item of list.items) {
+          if (item.id == key) {
+            item.name = newName;
+            localStorage.setItem("lists", JSON.stringify(lists));
+            break;
+          }
+        }
+      }
+      e.target.remove();
+      itemNameSpan.classList.remove("invisible");
+      document.removeEventListener("click", cancelEdit);
+    }
+  };
+
+  const removeItem = (e) => {
+    let li = e.target.parentNode.parentNode;
+    let key = li.dataset.key;
+    if (li.parentNode.nodeName === "UL") {
+      document.querySelector(".list-empty").classList.remove("hide");
+    }
+    li.remove();
+    for (let list of lists) {
+      list.items = list.items.filter((item) => {
+        item.id != key;
+      });
+    }
+    localStorage.setItem("lists", JSON.stringify(lists));
+  };
+
+  const toggleIsPurchased = (e) => {
+    let li = e.target.parentNode.parentNode;
+    li.classList.toggle("purchased");
+    let key = li.dataset.key;
+    for (list of lists) {
+      for (item of list.items) {
+        if (item.id == key) {
+          item.isPurchased = !item.isPurchased;
+          localStorage.setItem("lists", JSON.stringify(lists));
+          break;
+        }
+      }
+    }
+  };
+
+  const renderItem = (item) => {
+    let li = document.createElement("li");
+    li.innerHTML = `<div><input type="checkbox"><span>${item.name}</span></div>
+  <span><i class="manage-list fa-solid fa-pen"></i><i class="manage-list fa-solid fa-trash"></i></span>`;
+    li.classList.add("list__item");
+    li.dataset.key = item.id;
+    document.querySelector(".list__content").appendChild(li);
+    let checkbox = li.childNodes[0].childNodes[0];
+    if (item.isPurchased === true) {
+      checkbox.setAttribute("checked", "");
+      li.classList.add("purchased");
+    }
+    checkbox.addEventListener("click", toggleIsPurchased);
+    let editBtn = li.childNodes[2].childNodes[0];
+    let removeBtn = li.childNodes[2].childNodes[1];
+    editBtn.addEventListener("click", editItemName);
+    removeBtn.addEventListener("click", removeItem);
+  };
+
+  for (let list of lists) {
+    if (list.id == id) {
+      list.items.forEach((item) => renderItem(item));
+      break;
+    }
+  }
+
+  let addItem = document.getElementById("add-item");
+  addItem.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    let itemName = addItem[0].value.trim();
+
+    if (itemName === "") {
+      addItem[0].classList.add("error");
+      return;
+    } else {
+      addItem[0].classList.remove("error");
+    }
+
+    let newItem = {
+      id: new Date().getTime(),
+      name: itemName,
+      isPurchased: false,
+    };
+
+    for (let list of lists) {
+      if (list.id == id) {
+        list.items.push(newItem);
+        localStorage.setItem("lists", JSON.stringify(lists));
+        break;
+      }
+    }
+    renderItem(newItem);
+    addItem[0].value = "";
+    document.querySelector(".list-empty").classList.add("hide");
+  });
 }
 
 /* dark mode */
@@ -196,6 +346,7 @@ const languages = {
     yourlists: "Your lists",
     removedlists: "Removed Lists",
     add: "Add",
+    emptylist: "Your list is empty",
   },
   pl: {
     shoppinglist: "Lista Zakupów",
@@ -207,6 +358,7 @@ const languages = {
     yourlists: "Twoje listy",
     removedlists: "Usunięte listy",
     add: "Dodaj",
+    emptylist: "Twoja lista jest pusta",
   },
 };
 

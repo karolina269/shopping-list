@@ -1,6 +1,6 @@
 # shopping-list
 
-Simple shopping list
+Simple shopping list using localStorage
 
 ## Purpose
 
@@ -10,7 +10,7 @@ Built as a part of learning process, especially practice CRUD operations and BEM
 
 - HTML5
 - CSS3
-- JavaScript
+- vanilla JavaScript
 
 ## Project Status
 
@@ -18,5 +18,6 @@ in progress
 
 ## To Do
 
-- Basic functionalities of the shopping list: creating, updating, deleting
+- scrolling down purchased items, transition delayed
+- bulk operations on items
 - animations, transitions, refine styling
